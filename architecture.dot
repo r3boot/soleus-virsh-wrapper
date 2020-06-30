@@ -1,0 +1,37 @@
+digraph D {
+    virsh [ label=< <b>virsh</b> > ]
+    virsh_wrapper [ label=< <b>virsh-wrapper</b> > ]
+    ssh [ label=< <b>ssh</b> > ]
+    sudo [ label=< <b>sudo</b> > ]
+    sudoers [ label=< <b>sudoers file</b> > ]
+    generate_sudoers [ label=< <b>generate-sudoers.sh</b> > ]
+    spice_server [ label=< <b>SPICE server</b> > ]
+    kvm [ label=< <b>KVM/QEMU</b> > ]
+    vps_data [ label=< <b>vps.data</b> > ]
+    member [ label=< <b>Member</b> > ]
+    generate_vps_data [ label=< <b>generate-vps-data.sh</b> > ]
+    vps_definition [ label=< <b>vpsname.xml</b> > ]
+    vps_template [ label=< <b>newvps.template</b> > ]
+    create_vps [ label=< <b>create-vps.sh</b> > ]
+    coreteam [ label=< <b>CoreTeam</b> > ]
+
+    ssh -> virsh_wrapper
+    virsh_wrapper -> sudo
+    sudo -> virsh
+    virsh -> kvm
+    sudoers -> sudo
+    generate_sudoers -> sudoers
+    spice_server -> kvm
+    ssh -> spice_server
+    vps_data -> virsh_wrapper
+    vps_data -> generate_sudoers
+    vps_data -> create_vps
+    generate_vps_data -> vps_data
+    member -> ssh
+    create_vps -> vps_definition
+    vps_template -> create_vps
+    vps_definition -> kvm
+    coreteam -> generate_sudoers
+    coreteam -> generate_vps_data
+    coreteam -> create_vps
+}
